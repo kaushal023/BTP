@@ -14,10 +14,10 @@ def weib(x,l,a):
     # return (a / n) * (x / n)**(a - 1) * np.exp(-(x / n)**a)
 
 
-alpha = 3
-lamb_0 = 2
-lamb_1 = 10
-lamb_2 = 15
+alpha = 2
+lamb_0 = 1.2
+lamb_1 = 0.5
+lamb_2 = 1.5
 size = 1000
 n = 100
 count = 0
