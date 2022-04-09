@@ -95,18 +95,24 @@ a = 0.01
 b = 0.01
 
 def p(l00,l10,l20, l01,l11,l21):
-    g00 = gamma.pdf(l00,a + m_1 + m_2, 0, 1/(b + Delta(alpha)))
+    g00 = gamma.pdf(l00,a , 0, 1/(b + Delta(alpha)))
     g10 = gamma.pdf(l10, a+ m_1, 0, 1/(b + Delta(alpha)))
     g20 = gamma.pdf(l20, a+ m_2, 0, 1/(b + Delta(alpha)))
-    g01 = gamma.pdf(l01,a + m_1 + m_2, 0, 1/(b + Delta(alpha)))
+    g01 = gamma.pdf(l01,a , 0, 1/(b + Delta(alpha)))
     g11 = gamma.pdf(l11, a+ m_1, 0, 1/(b + Delta(alpha)))
     g21 = gamma.pdf(l21, a+ m_2, 0, 1/(b + Delta(alpha)))
-    h = ((1 + l11/l01 + l21/l01)/(l11+l21)) / ((1 + l10/l00 + l20/l00)/(l10+l20))
-    # print(h)
-    if h> 100:
+    print("lam",l00,l10,l20, l01,l11,l21)
+    print(g00,g10,g20, g01,g11,g21)
+    if(g01 == 0 or g11== 0 or g21==0):
         return 0
-    h = h**(m_1+m_2)
-    return h*g01*g11*g21 / (g00*g10*g20)
+    h = ((l01 + l11 + l21)/(l11+l21)) / ((l00 + l10 + l20)/(l10+l20))
+    h = (m_1+m_2)* math.log(h)
+    # print(h)
+    # if h> 100:
+    #     return 0
+    # h = math.exp(h)
+    t = h + math.log(g01) + math.log(g11) + math.log(g21) -math.log(g00) - math.log(g10) - math.log(g20)
+    return math.exp(t)
 
 
 def q(l00,l10,l20, l01,l11,l21):
@@ -123,8 +129,9 @@ l_0 = [4]
 l_1 = [3]
 l_2 = [5]
 
-N = 10000
+N = 1000
 i = 0
+k = 0
 while(i<N):
     # print(i)
     lo_0 = np.random.gamma(l_0[i], 1)
@@ -133,7 +140,10 @@ while(i<N):
     # lo_0 = np.random.gamma(a + m_1 + m_2,1/(b + Delta(alpha)))
     # lo_1 = np.random.gamma(a + m_1, 1/(b + Delta(alpha)))
     # lo_2 = np.random.gamma(a + m_2, 1/(b + Delta(alpha)))
-    if(lo_0 < 0.05 or lo_1 <0.05 or lo_2 < 0.05): continue
+    # if(lo_1 < 0.005): 
+        
+    #     k +=1
+    #     continue
     
 
     R = min(1 , (p(l_0[i], l_1[i], l_2[i], lo_0, lo_1, lo_2) * q(l_0[i], l_1[i], l_2[i], lo_0, lo_1, lo_2)) / (q(lo_0, lo_1, lo_2, l_0[i], l_1[i], l_2[i])) )
@@ -141,12 +151,21 @@ while(i<N):
     U = np.random.uniform(0,1)
     if U <= R:
         # print(lo_0,lo_1,lo_2)
+        print("acc", lo_0,lo_1,lo_2)
+        if(lo_0 ==0 or lo_1 ==0 or lo_2==0): break
         l_0.append(lo_0)
         l_1.append(lo_1)
         l_2.append(lo_2)
         i+=1
-        print(i)
+        # print(i)
     # print(i)
+print(k)
+
+dict = {'l0': l_0, 'l1': l_1, 'l2': l_2}
+df = pd.DataFrame(dict)
+
+df.to_csv('Est.csv')
+
 
 tit = "l0=" + str(lamb_0) + ", l1=" + str(lamb_1) + ", l2=" + str(lamb_2)
 tit = tit + "Start values:" + str(l_0[0]) + "," + str(l_1[0]) + "," + str(l_2[0])

@@ -14,9 +14,12 @@ def f(x):
 def g(x):
     return (b**a)*(x**(a-1))*(math.exp(-b*x))/math.gamma(a)
 
-x = np.arange(0,10,0.05)
-y1 = [f(y) for y in x]
-y2 = [g(y) for y in x]
+# x = np.arange(0,10,0.05)
+# y1 = [f(y) for y in x]
+# y2 = [g(y) for y in x]
 
-plt.plot(x,y1,x,y2)
-plt.show()
+# plt.plot(x,y1,x,y2)
+# plt.show()
+
+for i in range(10):
+    print(np.random.gamma(0.0004,1))
