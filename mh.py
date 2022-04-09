@@ -12,6 +12,9 @@ import math
 # 7.084554638262535
 # 6.310770218280761
 # 9.009222551985482
+# 1.0226725134159995
+# 0.47698717602511553
+# 1.6407498458858796
 
 x = np.arange(1,200.)/50.
 def weib(x,l,a):
@@ -21,9 +24,9 @@ def weib(x,l,a):
 
 
 alpha = 2
-lamb_0 = 8
-lamb_1 = 6
-lamb_2 = 10
+lamb_0 = 1.2
+lamb_1 = 0.5
+lamb_2 = 1.5
 size = 1000
 n = 100
 count = 0
@@ -120,7 +123,7 @@ l_0 = [4]
 l_1 = [3]
 l_2 = [5]
 
-N = 5000
+N = 10000
 i = 0
 while(i<N):
     # print(i)
@@ -134,6 +137,7 @@ while(i<N):
     
 
     R = min(1 , (p(l_0[i], l_1[i], l_2[i], lo_0, lo_1, lo_2) * q(l_0[i], l_1[i], l_2[i], lo_0, lo_1, lo_2)) / (q(lo_0, lo_1, lo_2, l_0[i], l_1[i], l_2[i])) )
+    # print(R)
     U = np.random.uniform(0,1)
     if U <= R:
         # print(lo_0,lo_1,lo_2)
@@ -144,8 +148,8 @@ while(i<N):
         print(i)
     # print(i)
 
-tit = "l0=" + lamb_0 + ", l1=" + lamb_1 + ", l2=" + lamb_2
-
+tit = "l0=" + str(lamb_0) + ", l1=" + str(lamb_1) + ", l2=" + str(lamb_2)
+tit = tit + "Start values:" + str(l_0[0]) + "," + str(l_1[0]) + "," + str(l_2[0])
 x = np.arange(0,N+1,1)
 plt.subplot(2,2,1)
 plt.plot(x, l_0)
