@@ -14,10 +14,10 @@ def weib(x,l,a):
     # return (a / n) * (x / n)**(a - 1) * np.exp(-(x / n)**a)
 
 
-alpha = 3
-lamb_0 = 2
-lamb_1 = 10
-lamb_2 = 15
+alpha = 2
+lamb_0 = 1.5
+lamb_1 = 1
+lamb_2 = 2
 size = 1000
 n = 100
 count = 0
@@ -33,7 +33,7 @@ m_2 = 0
 
 #Sampling installation years
 trunc_obs = 1975 + np.floor(np.random.uniform(0,5,20))
-nontrunc_obs =1980 + np.floor(np.random.uniform(0,10,80))
+nontrunc_obs = 1980 + np.floor(np.random.uniform(0,10,80))
 
 # print(trunc_obs)
 i = 0
@@ -51,7 +51,7 @@ while count < 100:
     u_1 = (lamb_1)**(-1/alpha)*np.random.weibull(alpha)
     u_2 = (lamb_2)**(-1/alpha)*np.random.weibull(alpha)
 
-    if( u_0 <= min(u_1, u_2) and u_1==u_2):
+    if( u_0 < min(u_1, u_2)):
         continue
     else:
         x_1.append(min(u_0,u_1))
@@ -62,8 +62,10 @@ while count < 100:
         else: m_2 +=1
         count +=1
 
-
-
+# plt.hist(x_1, 10)
+# plt.show()
+# plt.hist(x_2, 10)
+# plt.show()
 # print(y)
 print(m_1)
 print(m_2)
