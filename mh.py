@@ -46,10 +46,13 @@ y = []
 T_L = []
 nu = []
 delta = []
+M = [] #[m1,m2,m3]
 m_1 = 0
 m_2 = 0
 m_3 = 0
 right_ctime = 2021
+
+
 
 def Delta(alpha):
     y_sum = 0
@@ -64,15 +67,15 @@ def Delta(alpha):
 
 
 #Sampling installation years
-trunc_obs = 1960 + np.floor(np.random.uniform(0,5,20))
-nontrunc_obs = 1965 + np.floor(np.random.uniform(0,10,80))
+trunc_obs = 1960 + np.floor(np.random.uniform(0,10,20))
+nontrunc_obs = 1975 + np.floor(np.random.uniform(0,25,80))
 install_year = np.concatenate((trunc_obs, nontrunc_obs))
 # print(trunc_obs)
 i = 0
 for k in range(100):
     if(k < 20):
         nu.append(0)
-        T_L.append((1980 - trunc_obs[k])/100)
+        T_L.append((1975 - trunc_obs[k])/100)
     else:
         nu.append(1)
         T_L.append(0)
@@ -101,6 +104,15 @@ while count < 100:
             m_3 +=1
         
         count +=1
+
+M = [m_1, m_2, m_3]
+for i in range(97):
+    M.append(0)
+
+dict = {'T_L': T_L, 'y': y, 'nu': nu, 'delta': delta, 'M': M}
+df = pd.DataFrame(dict)
+
+df.to_csv('SimulatedPar.csv')
 
 prod_y = 1
 
@@ -201,7 +213,7 @@ l_1 = [lamb_1]
 l_2 = [lamb_2]
 alp = [alpha]
 
-N = 2000
+N = 1000
 c = 0.5
 sigma = 1
 p = 0.05
@@ -229,19 +241,19 @@ while(i<N):
     lo_2 = truncnorm.rvs(-l_2[i], np.inf, loc=l_2[i])
     alpha_n = truncnorm.rvs(-alp[i], np.inf, loc=alp[i])
     
-    if(i - index >= 0):
-        if((l_0[i] - l_0[i-index]) < min_l0):
-            min_l0 = l_0[i] - l_0[i-index]
-            ind_l0 = i
-        if((l_1[i] - l_1[i-index]) < min_l1):
-            min_l1 = l_1[i] - l_1[i-index]
-            ind_l1 = i
-        if((l_2[i] - l_2[i-index]) < min_l2):
-            min_l2 = l_2[i] - l_2[i-index]
-            ind_l2 = i
-        if((alp[i] - alp[i-index]) < min_a):
-            min_a = alp[i] - alp[i-index]
-            ind_a = i
+    # if(i - index >= 0):
+    #     if((l_0[i] - l_0[i-index]) < min_l0):
+    #         min_l0 = l_0[i] - l_0[i-index]
+    #         ind_l0 = i
+    #     if((l_1[i] - l_1[i-index]) < min_l1):
+    #         min_l1 = l_1[i] - l_1[i-index]
+    #         ind_l1 = i
+    #     if((l_2[i] - l_2[i-index]) < min_l2):
+    #         min_l2 = l_2[i] - l_2[i-index]
+    #         ind_l2 = i
+    #     if((alp[i] - alp[i-index]) < min_a):
+    #         min_a = alp[i] - alp[i-index]
+    #         ind_a = i
 
     
 
@@ -265,15 +277,10 @@ while(i<N):
     # print(i)
 print(k)
 
-dict = {'l0': l_0, 'l1': l_1, 'l2': l_2}
-df = pd.DataFrame(dict)
-
-df.to_csv('Est.csv')
-
 
 tit = "l0=" + str(lamb_0) + ",l1=" + str(lamb_1) + ",l2=" + str(lamb_2)
 tit = tit + "Est:" + str(mean(l_0))[:7] + "," + str(mean(l_1))[:7]  + "," + str(mean(l_2))[:7] 
-x = np.arange(0,N+1,1)
+x = np.arange(0,N+2,1)
 plt.subplot(2,2,1)
 plt.plot(x, l_0)
 
@@ -285,6 +292,44 @@ plt.plot(x, l_2)
 plt.subplot(2,2,4)
 plt.plot(x, alp)
 plt.show()
+
+
+
+
+l_0.sort()
+l_1.sort()   
+l_2.sort()
+alp.sort()
+
+for j in range(N+1):
+    if(j - index >= 0):
+        if((l_0[j] - l_0[j-index]) < min_l0):
+            min_l0 = l_0[j] - l_0[j-index]
+            ind_l0 = j
+        if((l_1[j] - l_1[j-index]) < min_l1):
+            min_l1 = l_1[j] - l_1[j-index]
+            ind_l1 = j
+        if((l_2[j] - l_2[j-index]) < min_l2):
+            min_l2 = l_2[j] - l_2[j-index]
+            ind_l2 = j
+        if((alp[j] - alp[j-index]) < min_a):
+            min_a = alp[j] - alp[j-index]
+            ind_a = j
+
+
+
+l_0.append(mean(l_0))
+l_1.append(mean(l_1))
+l_2.append(mean(l_2))
+alp.append(mean(alp))
+
+dict = {'l0': l_0, 'l1': l_1, 'l2': l_2, 'alpha': alp}
+df = pd.DataFrame(dict)
+
+df.to_csv('Est.csv')
+
+
+
 
 print(mean(l_0))
 print(mean(l_1))
