@@ -50,7 +50,7 @@ lamb_1 = 0.5
 lamb_2 = 1.5
 size = 1000
 n = 100
-count = 0
+
 
 #for AE. MSE has to be done
 l0_BE = []
@@ -72,11 +72,11 @@ l1_count = 0
 l2_count = 0
 al_count = 0
 
-NS = 400
+NS = 200
 
 for t in range(NS):
-
-
+    print(t)
+    count = 0
     x_1 = []
     x_2 = []
     y = []
@@ -128,15 +128,15 @@ for t in range(NS):
                 m_3 +=1
             
             count +=1
-
+    # print(delta)
     M = [m_1, m_2, m_3]
     for i in range(97):
         M.append(0)
 
-    dict = {'T_L': T_L, 'y': y, 'nu': nu, 'delta': delta, 'M': M}
-    df = pd.DataFrame(dict)
+    # dict = {'T_L': T_L, 'y': y, 'nu': nu, 'delta': delta, 'M': M}
+    # df = pd.DataFrame(dict)
 
-    df.to_csv('SimulatedPar.csv')
+    # df.to_csv('SimulatedPar.csv')
 
     prod_y = 1
 
@@ -297,7 +297,7 @@ for t in range(NS):
             l_2.append(lo_2)
             alp.append(alpha_n)
             i+=1
-            print(i,t)
+            # print(i,t)
         # print(i)
     # print(k)
 
@@ -318,7 +318,7 @@ for t in range(NS):
     # plt.show()
 
 
-
+    
 
     l_0.sort()
     l_1.sort()   
