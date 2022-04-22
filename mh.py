@@ -72,7 +72,7 @@ l1_count = 0
 l2_count = 0
 al_count = 0
 
-NS = 100
+NS = 400
 
 for t in range(NS):
 
@@ -359,11 +359,11 @@ for t in range(NS):
     l1_BE.append(mean(l_1))
     l2_BE.append(mean(l_2))
     al_BE.append(mean(alp))
-    print("HPD CIs")
-    print("[", l_0[ind_l0-index],",", l_0[ind_l0],"]")
-    print("[", l_1[ind_l1-index],",", l_1[ind_l1],"]")
-    print("[", l_2[ind_l2-index],",", l_2[ind_l2],"]")
-    print("[", alp[ind_a-index],",", alp[ind_a],"]")
+    # print("HPD CIs")
+    # print("[", l_0[ind_l0-index],",", l_0[ind_l0],"]")
+    # print("[", l_1[ind_l1-index],",", l_1[ind_l1],"]")
+    # print("[", l_2[ind_l2-index],",", l_2[ind_l2],"]")
+    # print("[", alp[ind_a-index],",", alp[ind_a],"]")
     l0_CI.append(l_0[ind_l0] - l_0[ind_l0-index])
     l1_CI.append(l_1[ind_l1] - l_1[ind_l1-index])
     l2_CI.append(l_2[ind_l2] - l_2[ind_l2-index])
