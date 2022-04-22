@@ -25,7 +25,7 @@ M = df['M']
 
 df = pd.read_csv('Est.csv')
 alp = df['alpha']
-alpha = alp[-1]
+alpha = alp.iloc[-1]
 
 m_1 = M[0]
 m_2 = M[1]
