@@ -15,9 +15,9 @@ def weib(x,l,a):
 
 
 alpha = 2
-lamb_0 = 1.2
-lamb_1 = 0.5
-lamb_2 = 1.5
+lamb_0 = 10
+lamb_1 = 8
+lamb_2 = 12
 size = 1000
 n = 100
 count = 0
