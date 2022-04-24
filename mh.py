@@ -237,7 +237,7 @@ for t in range(NS):
             l_2.append(lo_2)
             alp.append(alpha_n)
             i+=1
-            print(i,t)
+            # print(i,t)
         # print(i)
     # print(k)
 
